@@ -22,6 +22,8 @@ Classification is then performed using a standard Convolutional Neural Network.
 
 **NotebookI.ipynb** and **NotebookII.ipynb** are the Jupyter notebooks containing the steps from the creation of the dataset, the feature generation, and the training and testing of the CNN. It is recommended that you approach this project via the notebooks.
 
-*model_CoughDetectionCNN.h5* contains the trained model along with its weights, which can be loaded directly using Tensorflow and Keras, and deployed to make predictions or be trained further.
+**train.py** is the Python3 script for building and training the model. It can be run on its own, provided the directory structure is appropriate, or used to import each function individually.
 
-*cough_detection_helper_functions.py* and *cough_detection_training_functions.py* contain the Python scripts with the functions necessary to compile and train the model. 
+*cough_detection_helper_functions.py* contains the functions used in the dataset generation process in Python3 scripts. It is usually recommended, however, to perform this task without much automation, since there might be great variability and inconsistency between available data.
+
+*model_CoughDetectionCNN.h5* contains the trained model along with its weights, which can be loaded directly using Tensorflow and Keras, and deployed to make predictions or be trained further.
