@@ -1,3 +1,4 @@
+#%% SCRIPT STARTS HERE
 # Import libraries:
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -5,7 +6,6 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 
-#%% SCRIPT STARTS HERE
 # Set some default parameters:
 TRAIN_DIR_PATH = './MFCCs_train/'
 HEIGHT = 224
