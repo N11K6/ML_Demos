@@ -27,3 +27,5 @@ Classification is then performed using a standard Convolutional Neural Network.
 *cough_detection_helper_functions.py* contains the functions used in the dataset generation process in Python3 scripts. It is usually recommended, however, to perform this task without much automation, since there might be great variability and inconsistency between available data.
 
 *model_CoughDetectionCNN.h5* contains the trained model along with its weights, which can be loaded directly using Tensorflow and Keras, and deployed to make predictions or be trained further.
+
+*MFCCs_train* contains two zipped archives, which in turn contain the MFCCs used as training data for the present model. These are stored as numpy arrays in a .npy file format. 
