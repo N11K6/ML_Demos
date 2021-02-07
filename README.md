@@ -1,10 +1,10 @@
 # Hello and Welcome
 
-I guess that this repository can be considered my portfolio. 
+This repository is a small collection of Machine Learning projects that I guess could be considered my portfolio. 
 
 I will be adding some short and perhaps some longer projects that I feel are indicative of my research interests and working methods.
 
-As I am primarily a DSP and Machine Learning engineer, the projects included are all in this direction. Each subdirectory here corresponds to a separate project, which includes all the scripts and data necessary to run and replicate my results. In cases where data has not been uploaded on Github, download links are provided.
+As I am primarily a DSP and Machine Learning engineer, the projects included are all in this direction. Each subdirectory here corresponds to a separate project, which includes all the scripts and data necessary to run and replicate my results. In cases where data has not been uploaded on Github, download links are provided. 
 
 I have chosen the Jupyter Notebook format to showcase these projects for the following reasons:
 
