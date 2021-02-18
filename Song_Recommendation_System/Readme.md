@@ -17,7 +17,7 @@ The structure followed is:
 
 ### Contents:
 
-1. **Notebook_GTZAN.ipynb** is the Jupyter Notebook describing the method for analyzing the dataset, building a genre classification model, and eventually the recommender system. It is recommended as an introduction to the work here. If downloaded, it can be used to obtain the audio files and actually listen to the recommended songs.
+1. **Notebook_GTZAN.ipynb** is the Jupyter Notebook describing the method for analyzing the dataset, building a genre classification model, and eventually the recommender system. It is recommended as an introduction to the work here. If downloaded, it can be used to obtain the audio files and actually listen to the recommended songs - **IPython.display is required to listen to the songs in the notebook**.
 2. **feature_pipeline.py** is the Python program used to extract features from the audio dataset and assemble a feature dataframe.
 3. **feature_dataframe.csv** is the dataframe created by the above pipeline, used to train the classification model and build the recommendation system.
 4. **XGB_genre_classification.py** is the Python program used to build and assess a Cross Gradient Boosting classifier model using the features contained in the dataframe.
