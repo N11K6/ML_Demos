@@ -4,9 +4,7 @@ import numpy as np
 import pandas as pd
 import librosa as lb
 import os
-import tensorflow as tf
 from tensorflow import keras
-from keras import backend as K
 from sklearn.model_selection import train_test_split
 #%% Set some default parameters:
 
@@ -25,17 +23,24 @@ PATH_TEST = 'path/to/test/files'
 SAVE_PATH = 'CoughDetectionCNN_trained_model.h5'
 
 #%%
-def calc_mfcc(path):
-    '''Calculate MFCC from the file in specified path'''
-    # If stored in numpy
-    if path[-3:] == 'npy':
-        sound = np.load(path)
-        sr = 22050
-    # If stored as wav
-    else:
-        sound, sr = lb.load(path)
-    # Calculate MFCC
-    mfcc = lb.feature.mfcc(y=sound, sr=sr)
+
+def get_MFCC(path):
+    '''
+    Extract MFCCs from audio file in path.
+    '''
+    # Load audio, default sample rate is 22050 Hz
+    sound, sample_rate = lb.load(path)
+    
+    ''' 
+    Normalize within range 0,1. The *if* statement is to avoid getting 
+    *nan* values from blank files that have made it to the dataset.
+    '''
+    if np.max(sound) != np.min(sound):
+        sound /= np.max(np.abs(sound))
+    
+    # Calculate MFCCs
+    mfcc = lb.feature.mfcc(y=sound, sr=sample_rate)
+    
     return mfcc
 
 #%%
@@ -51,7 +56,7 @@ def get_features(path):
     mfccs = []
     # Get MFCCs
     for i, filepath in enumerate(filepaths):
-        mfccs.append(calc_mfcc(filepath))
+        mfccs.append(get_MFCC(filepath))
         if i % 10 == 0:
             print(f'Extracted features from {i} files...')
     # Store in numpy
@@ -100,27 +105,40 @@ def build_model(input_shape,
     Tensorflow model
     """
     print('Building Convolutional Neural Network...')
-    mfcc_input=keras.layers.Input(shape=(input_shape),name="mfccInput")
-    x=keras.layers.Conv2D(32,3,strides=(1,1),padding='same')(mfcc_input)
-    x=keras.layers.BatchNormalization()(x)
-    x=keras.layers.Activation(keras.activations.relu)(x)
-    x=keras.layers.MaxPooling2D(pool_size=2,padding='valid')(x)
+    # Input stage
+    mfcc_input=keras.layers.Input(shape=(20,44,1), name = "mfccInput")
+    
+    # 1st Convolution stage
+    x=keras.layers.Conv2D(32,3,strides=(1,1),padding='same', name = 'conv1')(mfcc_input)
+    x=keras.layers.BatchNormalization(name = 'bnorm1')(x)
+    x=keras.layers.Activation(keras.activations.relu, name = 'act1')(x)
+    x=keras.layers.MaxPooling2D(pool_size=2,padding='valid', name = 'pool1')(x)
+    x=keras.layers.Dropout(0.1, name='drop1')(x)
+    
+    # 2nd Convolution stage
+    x=keras.layers.Conv2D(64,3,strides=(1,1),padding='same', name = 'conv2')(x)
+    x=keras.layers.BatchNormalization(name = 'bnorm2')(x)
+    x=keras.layers.Activation(keras.activations.relu, name = 'act2')(x)
+    x=keras.layers.MaxPooling2D(pool_size=2,padding='valid', name = 'pool2')(x)
+    x=keras.layers.Dropout(0.1, name='drop2')(x)
+    
+    # 3rd Convolution stage
+    x=keras.layers.Conv2D(64,3,strides=(1,1),padding='same', name = 'conv3')(x)
+    x=keras.layers.BatchNormalization(name = 'bnorm3')(x)
+    x=keras.layers.Activation(keras.activations.relu, name = 'act3')(x)
+    x=keras.layers.MaxPooling2D(pool_size=2,padding='valid', name = 'pool3')(x)
+    x=keras.layers.Dropout(0.1, name='drop3')(x)
+    
+    # Fully Connected stage
+    x=keras.layers.Flatten(name = 'flatten')(x)
+    x=keras.layers.Dense(units = 64, activation = 'relu', name = 'dense')(x)
+    x=keras.layers.Dropout(0.2, name='drop4')(x)
+    
+    # Output stage
+    mfcc_output=keras.layers.Dense(2, activation='softmax', name = 'out')(x)
+    
+    model=keras.Model(mfcc_input, mfcc_output, name="mfccModel")
 
-    x=keras.layers.Conv2D(64,3,strides=(1,1),padding='same')(x)
-    x=keras.layers.BatchNormalization()(x)
-    x=keras.layers.Activation(keras.activations.relu)(x)
-    x=keras.layers.MaxPooling2D(pool_size=2,padding='valid')(x)
-
-    x=keras.layers.Conv2D(96,2,padding='same')(x)
-    x=keras.layers.BatchNormalization()(x)
-    x=keras.layers.Activation(keras.activations.relu)(x)
-    x=keras.layers.MaxPooling2D(pool_size=2,padding='valid')(x)
-
-    x=keras.layers.Flatten()(x)
-    x=keras.layers.Dense(units = 64, activation = 'relu')(x)
-    x=keras.layers.Dropout(0.5)(x)
-
-    mfcc_output=keras.layers.Dense(2, activation='softmax')(x)
 
     model=keras.Model(mfcc_input, mfcc_output, name="mfccModel")
     
@@ -128,7 +146,7 @@ def build_model(input_shape,
                        optimizer=optimizer,
                        metrics= ['accuracy'])
     
-    K.set_value(model.optimizer.learning_rate, learning_rate)
+    keras.backend.set_value(model.optimizer.learning_rate, learning_rate)
     
     return model
 
@@ -160,8 +178,8 @@ def train(model,
     """
     
     # Callback for early stopping
-    model_callbacks = [tf.keras.callbacks.EarlyStopping(patience=patience),
-                       tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1,
+    model_callbacks = [keras.callbacks.EarlyStopping(patience=patience),
+                       keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1,
                               patience=3, min_lr=0.00001,mode='min')
                        ]
     
