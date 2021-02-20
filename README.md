@@ -1,6 +1,6 @@
 # Hello and Welcome
 
-This repository is a small collection of Machine Learning projects that I could be considered my portfolio. 
+This repository is a small collection of Machine Learning projects that could be considered my portfolio. 
 
 I will be adding some short and perhaps some longer projects that I feel are indicative of my research interests and working methods.
 
