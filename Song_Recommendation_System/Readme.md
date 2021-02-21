@@ -21,5 +21,5 @@ The structure followed is:
 2. **feature_pipeline.py** is the Python program used to extract features from the audio dataset and assemble a feature dataframe.
 3. **feature_dataframe.csv** is the dataframe created by the above pipeline, used to train the classification model and build the recommendation system.
 4. **XGB_genre_classification.py** is the Python program used to build and assess a Cross Gradient Boosting classifier model using the features contained in the dataframe.
-5. **song_recommendation.py** is the program containing the SongRecommendation class, which is the recommender system built in this project. This system uses the features extracted from the audio files to estimate the most similar songs and provide recommendations.
+5. **songrecommender.py** is the program containing the SongRecommendation class, which is the recommender system built in this project. This system uses the features extracted from the audio files to estimate the most similar songs and provide recommendations.
 
