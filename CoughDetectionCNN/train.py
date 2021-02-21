@@ -122,13 +122,6 @@ def build_model(input_shape,
     x=keras.layers.MaxPooling2D(pool_size=2,padding='valid', name = 'pool2')(x)
     x=keras.layers.Dropout(0.1, name='drop2')(x)
     
-    # 3rd Convolution stage
-    x=keras.layers.Conv2D(64,3,strides=(1,1),padding='same', name = 'conv3')(x)
-    x=keras.layers.BatchNormalization(name = 'bnorm3')(x)
-    x=keras.layers.Activation(keras.activations.relu, name = 'act3')(x)
-    x=keras.layers.MaxPooling2D(pool_size=2,padding='valid', name = 'pool3')(x)
-    x=keras.layers.Dropout(0.1, name='drop3')(x)
-    
     # Fully Connected stage
     x=keras.layers.Flatten(name = 'flatten')(x)
     x=keras.layers.Dense(units = 64, activation = 'relu', name = 'dense')(x)
@@ -160,9 +153,6 @@ def train(model,
           patience = 5,
           ):
     
-    X_train, X_val, y_train, y_val = train_test_split(X, 
-                                                      y, 
-                                                      test_size=val_split)
     """
     Train the model
     
@@ -176,6 +166,10 @@ def train(model,
     returns:
     Training history
     """
+    
+    X_train, X_val, y_train, y_val = train_test_split(X, 
+                                                      y, 
+                                                      test_size=val_split)
     
     # Callback for early stopping
     model_callbacks = [keras.callbacks.EarlyStopping(patience=patience),
@@ -266,4 +260,3 @@ def main():
 #%%
 if __name__ == "__main__":
     main()
-    
