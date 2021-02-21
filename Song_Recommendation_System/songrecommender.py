@@ -20,9 +20,9 @@ import pandas as pd
 from sklearn.preprocessing import scale
 from sklearn.metrics.pairwise import cosine_similarity
 #%%
-class SongRecommendation():
+class SongRecommender():
     '''
-    Song Recommendation class
+    Song Recommender class
     '''
     # Upon initialization:
     def __init__(self,
