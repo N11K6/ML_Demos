@@ -3,7 +3,7 @@
 The GTZAN Dataset (http://marsyas.info/downloads/datasets.html) was collected between 2000 and 2001, and used for the paper in genre classification " Musical genre classification of audio signals " by G. Tzanetakis and P. Cook in IEEE Transactions on Audio and Speech Processing 2002. Since then, it has been a popular choice for subsequent work on musical genre classification using machine learning.
 
 This dataset has been mostly associated with music genre classification, a task that has lately been taken over entirely by deep learning models and convolutional neural networks. 
-However, as specifying a genre for a song and its performer can be a very nebulous affair, given its subjective nature, even the most precise audio-based models often fail to reach a high accuracy. Especially when it comes to drawing boundaries between wide-reaching genres such as rock and pop, this precision becomes a matter of correct labeling as much as it is a matter of designing a good model.
+However, as specifying a genre for a song and its performer can be a very nebulous affair, given its subjective nature, even the most precise audio-based models often fail to reach a high accuracy. Especially when it comes to drawing boundaries between wide-reaching genres such as rock and pop, this precision becomes a matter of appropriate labelling as much as it is a matter of designing a good model.
 
 Shifting away from genre classification, the goal of this small project will be to eventually create a recommendation model. In particular, it should be a recommendation based solely on the audio content of the song, uninfluenced by subjective associations not directly stemming from its sound. 
 
